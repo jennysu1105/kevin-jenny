@@ -5,7 +5,6 @@ from dateutil.relativedelta import relativedelta
 from discord.ext import commands
 from keep_alive import keep_alive
 from access_json import *
-import requests
 import shutil
 from help import *
 from PIL import Image

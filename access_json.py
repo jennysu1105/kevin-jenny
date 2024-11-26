@@ -24,11 +24,11 @@ async def create_new_mc_coord(coords, id):
 
 async def open_mc_coord(coord):
   coords = await get_mc_coord()
-  if coord in coords:
+  if coord["id"] < len(coords):
     return False
 
   else:
-    id = len(coords) + 1
+    id = len(coords)
     coords = await create_new_mc_coord(coords, id)
 
   await save_mc_coord(coords)
