@@ -18,7 +18,7 @@ client = commands.Bot(command_prefix="kj!", intents=intents)
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(
-        name="get commands with kj!h"))
+        name="learn about commands with kj!h"))
     print("Ready!")
 
 
@@ -34,11 +34,14 @@ async def help(ctx, *specs):
             em = await general_commands_help()
             await ctx.send(embed=em)
             return
-
+        elif specs[0].lower() == "mc":
+            em = await minecraft_help()
+            await ctx.send(embed=em)
+            return
     return
 
 
-# Time command
+# TIME
 @client.command(name="time")
 async def time(ctx):
     together = datetime.datetime(2024, 10, 20, 4, 31, 0)

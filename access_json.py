@@ -1,27 +1,36 @@
 import json
 
 
-async def get_t_codes():
-  with open("data/t_codes.json", 'r') as f:
+async def get_mc_coord():
+  with open("data/mc_coord.json", 'r') as f:
     return json.load(f)
 
 
-async def save_t_codes(t_codes):
-  with open("data/t_codes.json", "w") as f:
+async def save_mc_coord(t_codes):
+  with open("data/mc_coord.json", "w") as f:
     json.dump(t_codes, f)
 
 
-async def open_t_code(code):
-  codes = await get_t_codes()
-  if code in codes:
+async def create_new_mc_coord(coords, id):
+  coords[id]
+  coords[id]["registered"] = None
+  coords[id]["name"] = "N/A"
+  coords[id]["type"] = "N/A"
+  coords[id]["x"] = 0
+  coords[id]["y"] = 0
+  coords[id]["z"] = 0
+  return id
+
+
+async def open_mc_coord(coord):
+  coords = await get_mc_coord()
+  if coord in coords:
     return False
 
   else:
-    codes[code] = {}
-    codes[code]["date"] = "TBD"
-    codes[code]["decks"] = "TBD"
-    codes[code]["web"] = "N/A"
+    id = len(coords) + 1
+    coords = await create_new_mc_coord(coords, id)
 
-  await save_t_codes(codes)
+  await save_mc_coord(coords)
 
   return True

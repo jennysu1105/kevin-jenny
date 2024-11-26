@@ -6,6 +6,7 @@ async def general_help():
                        title="General Help",
                        description="kj!h <type> for more indepth help.")
                    em.add_field(name="kj!h c", value="General commands")
+                   em.add_field(name="kj!h mc", value="Minecraft commands")
                    return em
 
 
@@ -13,4 +14,17 @@ async def general_commands_help():
                    em = discord.Embed(title="General Commands Help")
                    em.add_field(name="kj!time",
                                 value="How long we have been together!")
+                   return em
+
+
+async def minecraft_help():
+                   em = discord.Embed(title="Minecraft Commands Help",
+                                      description="kj!mc <type>")
+                   em.add_field(
+                       name="kj!mc spt <type> <point>",
+                       value="Save coordinate point of [type] at [point]")
+                   em.add_field(name="kj!mc gpt",
+                                value="View all coordinate points")
+                   em.add_field(name="kj!mc gpt <type>",
+                                value="View coordinate points of [type]")
                    return em
