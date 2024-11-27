@@ -4,15 +4,15 @@ import discord
 async def general_help():
                    em = discord.Embed(
                        title="General Help",
-                       description="kj!h <type> for more indepth help.")
-                   em.add_field(name="kj!h c", value="General commands")
-                   em.add_field(name="kj!h mc", value="Minecraft commands")
+                       description="kj!help <type> OR /help <type> for more indepth help.")
+                   em.add_field(name="kj!help c OR /help c", value="General commands")
+                   em.add_field(name="kj!help mc OR /help mc", value="Minecraft commands")
                    return em
 
 
 async def general_commands_help():
                    em = discord.Embed(title="General Commands Help")
-                   em.add_field(name="kj!time",
+                   em.add_field(name="kj!time OR /time",
                                 value="How long we have been together!")
                    return em
 
