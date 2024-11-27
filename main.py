@@ -2,7 +2,7 @@ import discord
 import os
 import datetime
 from dateutil.relativedelta import relativedelta
-from discord.ext import commands
+from discord.ext import commands, tasks
 from typing import Optional
 from keep_alive import keep_alive
 from access_json import *
@@ -26,12 +26,15 @@ async def get_help_text(specs):
     elif specs[0].lower() == "mc":
             em = await minecraft_help()
             return em
-    return discord.Embed()
+    em = await general_help()
+    return em
+# HELP message command
 @client.command(name="help")
 async def help(ctx, *specs):
     em = await get_help_text(specs)
     await ctx.send(embed=em)
     return
+# HELP slash command
 @client.tree.command(
     name="help",
     description="learn about the commands!",
@@ -56,11 +59,13 @@ async def get_time():
     em = discord.Embed(title="Kevin ♥ Jenny")
     em.add_field(name="We have been together for:", value=string)
     return em
+# TIME message command
 @client.command(name="time")
 async def time(ctx):
     em = await get_time()
     await ctx.send(embed=em)
     return
+# TIME slash command
 @client.tree.command(
           name="time",
           description="How long have we been together?"
@@ -69,6 +74,17 @@ async def time_slash(ctx):
     em = await get_time()
     await ctx.response.send_message(embed=em)
     return
+
+# TIME automatic messaging system
+time = datetime.time(hour=4, minute=30)
+class DailyTimePing(commands.Cog):
+    def __init__(self, bot) -> None:
+        self.bot = bot
+        self.time_ping.start()
+    
+    @tasks.loop(time=time)
+    async def time_ping(self) -> None:
+        print("KEVIN AND JENNY DAYVERSARY")
 
 @client.event
 async def on_ready():
