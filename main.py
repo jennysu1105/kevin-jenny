@@ -49,7 +49,7 @@ async def slash_help(ctx, specs: Optional[str]):
 
 # TIME
 async def get_time():
-    together = datetime.datetime(2024, 10, 20, 4, 31, 0)
+    together = datetime.datetime(2024, 10, 20, 23, 31, 0)
     now = datetime.datetime.now()
     dif = relativedelta(now, together)
 
@@ -76,7 +76,7 @@ async def time_slash(ctx):
     return
 
 # TIME automatic messaging system
-time = datetime.time(hour=4, minute=30)
+time = datetime.time(hour=23, minute=31)
 class DailyTimePing(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
