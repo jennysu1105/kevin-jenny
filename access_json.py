@@ -11,28 +11,32 @@ async def save_mc_coord(coords):
     json.dump(coords, f)
 
 
-async def create_new_mc_coord(coords, id):
+async def create_new_mc_coord(coords, id, name, pt, type):
   coords[id]
-  coords[id]["registered"] = None
-  coords[id]["name"] = "N/A"
-  coords[id]["type"] = "N/A"
-  coords[id]["x"] = 0
-  coords[id]["y"] = 0
-  coords[id]["z"] = 0
+  coords[id]["registered"] = datetime.datetime.now()
+  coords[id]["name"] = name
+  coords[id]["type"] = type
+  coords[id]["pt"] = pt
   return id
 
-async def open_mc_coord(coord):
+async def update_mc_coord(name, pt, type):
   coords = await get_mc_coord()
-  if coord["id"] < len(coords):
-    return False
+  all_points = [coords[x]["pt"] for x in range(len(coords))]
+  if pt in all_points:
+    id = all_points.index(coord)
+    coords[id]["name"] = name
+    coords[id]["pt"] = pt
+    if type != "N/A":
+      coords[id]["type"] = type
+    await save_mc_coord(coords)
+    return True
 
   else:
     id = len(coords)
-    coords = await create_new_mc_coord(coords, id)
+    coords = await create_new_mc_coord(coords, id, name, pt, type)
 
   await save_mc_coord(coords)
-
-  return True
+  return False
 
 async def get_memories():
   with open("data/memories.json", 'r') as f:
