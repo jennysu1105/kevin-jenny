@@ -114,6 +114,18 @@ async def view_mc_coords(type, name):
     for name in sorted_pts.keys():
         em.add_field(name=name, value="\n".join(sorted_pts[name]))
     return em
+# TIME function
+async def get_mc_time():
+    started_world = datetime.datetime(2024, 10, 26, 14, 50, 0)
+    now = datetime.datetime.now()
+    dif = relativedelta(now, started_world)
+
+    string = str(dif.years) + " years " + str(dif.months) + " months " + str(
+        dif.days) + " days " + str(dif.hours) + " hours " + str(
+            dif.minutes) + " minutes " + str(dif.seconds) + " seconds "
+    em = discord.Embed(title="Our Minecraft World")
+    em.add_field(name="We have been working on it for:", value=string)
+    return em
 
 # MC command controller
 async def mc_controller(specs):
@@ -145,6 +157,9 @@ async def mc_controller(specs):
                 specs = list(specs)
                 specs[1] = ""
             em = await view_mc_coords( specs[1], specs[2])
+        return em
+    elif specs[0] == "time":
+        em = await get_mc_time()
         return em
 
 @client.command(name= "mc")
@@ -183,6 +198,16 @@ async def mc_view_slash(ctx, type: Optional[Literal["Biome", "Structure", "Build
         name = ""
     specs = ["vpt", type, name]
     em = await mc_controller(specs)
+    await ctx.response.send_message(embed=em)
+
+# TIME slash command
+@client.tree.command(
+        name="mctime",
+        description="How old is our Minecraft world?",
+        guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def mc_time_slash(ctx):
+    em = await mc_controller(["time"])
     await ctx.response.send_message(embed=em)
 
 # MEMORY command

@@ -1,16 +1,13 @@
 import json
 import datetime
 
+# MINECRAFT json access
 async def get_mc_coord():
   with open("data/mc_coords.json", 'r') as f:
     return json.load(f)
-
-
 async def save_mc_coord(coords):
   with open("data/mc_coords.json", "w") as f:
     json.dump(coords, f)
-
-
 async def create_new_mc_coord(coords, id, name, pt, type):
   coords.append({})
   date = datetime.datetime.now()
@@ -19,7 +16,6 @@ async def create_new_mc_coord(coords, id, name, pt, type):
   coords[id]["type"] = type
   coords[id]["pt"] = pt
   return coords
-
 async def update_mc_coord(name, pt, type):
   coords = await get_mc_coord()
   all_points = [coords[x]["pt"] for x in range(len(coords))]
@@ -42,30 +38,37 @@ async def update_mc_coord(name, pt, type):
 async def get_memories():
   with open("data/memories.json", 'r') as f:
     return json.load(f)
-
-
 async def save_memory(mems):
   with open("data/memories.json", "w") as f:
     json.dump(mems, f)
-
-async def create_new_memory(mems, id):
+async def create_new_memory(mems, id, date, name, type, details, img):
   mems.append({})
-  mems[id]["date"] = None
-  mems[id]["name"] = "N/A"
-  mems[id]["type"] = "N/A"
-  mems[id]["description"] = "N/A"
-  mems[id]["img"] = "N/A"
+  if date == "N/A":
+    date = datetime.datetime.now().strftime('%m-%d-%Y')
+  mems[id]["date"] = date
+  mems[id]["name"] = name
+  mems[id]["type"] = type
+  mems[id]["details"] = details
+  mems[id]["img"] = img
   return mems
-
-async def open_mc_coord(mem):
+async def update_mc_coord(id, date, name, type, details, img):
   mems = await get_memories()
-  if mems["id"] < len(mems):
-    return False
+  if id < len(mems):
+    if name != "N/A":
+      mems[id]["name"] = name
+    if date != "N/A":
+      mems[id]["date"] = date
+    if type != "N/A":
+      mems[id]["type"] = type
+    if details != "N/A":
+      mems[id]["details"] = details
+    if img != "N/A":
+      mems[id]["img"] = img
+    return True
 
   else:
-    id = len(mem)
-    mems = await create_new_memory(mems, id)
+    id = len(mems)
+    mems = await create_new_memory(mems, id, date, name, type, details, img)
 
   await save_memory(mems)
-
-  return True
+  return False
