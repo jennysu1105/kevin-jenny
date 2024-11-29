@@ -1,29 +1,30 @@
 import json
-
+import datetime
 
 async def get_mc_coord():
-  with open("data/mc_coord.json", 'r') as f:
+  with open("data/mc_coords.json", 'r') as f:
     return json.load(f)
 
 
 async def save_mc_coord(coords):
-  with open("data/mc_coord.json", "w") as f:
+  with open("data/mc_coords.json", "w") as f:
     json.dump(coords, f)
 
 
 async def create_new_mc_coord(coords, id, name, pt, type):
-  coords[id]
-  coords[id]["registered"] = datetime.datetime.now()
+  coords.append({})
+  date = datetime.datetime.now()
+  coords[id]["registered"] = date.strftime('%m-%d-%Y')
   coords[id]["name"] = name
   coords[id]["type"] = type
   coords[id]["pt"] = pt
-  return id
+  return coords
 
 async def update_mc_coord(name, pt, type):
   coords = await get_mc_coord()
   all_points = [coords[x]["pt"] for x in range(len(coords))]
   if pt in all_points:
-    id = all_points.index(coord)
+    id = all_points.index(pt)
     coords[id]["name"] = name
     coords[id]["pt"] = pt
     if type != "N/A":
@@ -48,12 +49,13 @@ async def save_memory(mems):
     json.dump(mems, f)
 
 async def create_new_memory(mems, id):
-  mems[id]
+  mems.append({})
   mems[id]["date"] = None
   mems[id]["name"] = "N/A"
   mems[id]["type"] = "N/A"
   mems[id]["description"] = "N/A"
   mems[id]["img"] = "N/A"
+  return mems
 
 async def open_mc_coord(mem):
   mems = await get_memories()

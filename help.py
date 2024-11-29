@@ -19,12 +19,10 @@ async def general_commands_help():
 
 async def minecraft_help():
                    em = discord.Embed(title="Minecraft Commands Help",
-                                      description="kj!mc <type>")
+                                      description="kj!mc <type> OR /mc<type>")
                    em.add_field(
-                       name="kj!mc spt <name> <x> <y> <z>",
-                       value="Save coordinate point of [type] at point: [<x> <y> <z>]")
-                   em.add_field(name="kj!mc gpt",
-                                value="View all coordinate points")
-                   em.add_field(name="kj!mc gpt <type>",
-                                value="View coordinate points of [type]")
+                       name="kj!mc spt <x> <y> <z> <name> OR /mcspt <xyz> <name> [type]",
+                       value="Save and update coordinate point of <name> at point: [<x> <y> <z>]")
+                   em.add_field(name="kj!mc vpt [type] [name] OR /mcvpt [type] [name]",
+                                value="View coordinate points of [type] and/or [name].\n NOTE: for message command, if you only want to search for name, fill type with character")
                    return em

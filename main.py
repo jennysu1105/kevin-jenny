@@ -1,9 +1,11 @@
 import discord
 import os
+import re
 import datetime
 from dateutil.relativedelta import relativedelta
 from discord.ext import commands, tasks
-from typing import Optional
+from discord import app_commands
+from typing import Optional, Literal
 from keep_alive import keep_alive
 from access_json import *
 import shutil
@@ -90,6 +92,28 @@ class DailyTimePing(commands.Cog):
 async def save_mc_coord_helper(name, x, y, z, type):
     pt = str(x) + " " + str(y) + " " + str(z)
     return await update_mc_coord(name.title(), pt, type)
+# VIEW function
+async def view_mc_coords(type, name):
+    coords = await get_mc_coord()
+    if type != "" and name != "":
+        em = discord.Embed(title="Search Results <" + name + " and " + type + "> :")
+    elif name != "":
+        em = discord.Embed(title="Search Results <" + name + "> :")
+    elif type != "":
+        em = discord.Embed(title="Search Results <" + type + "> :")
+    else:
+        em = discord.Embed(title="Search Results:")
+    type = type.title()
+    sorted_pts = {}
+    for pt in coords:
+        if re.search(type.lower(), pt["type"].lower()) and re.search(name.lower(), pt['name'].lower()):
+            if pt["name"] not in sorted_pts.keys():
+                sorted_pts[pt["name"]] = [pt["pt"]]
+            else:
+                sorted_pts[pt["name"]].append(pt["pt"])
+    for name in sorted_pts.keys():
+        em.add_field(name=name, value="\n".join(sorted_pts[name]))
+    return em
 
 # MC command controller
 async def mc_controller(specs):
@@ -101,22 +125,65 @@ async def mc_controller(specs):
             if len(specs) == 5:
                 status = await save_mc_coord_helper(specs[4], specs[1], specs[2], specs[3], "N/A")
             else: 
-                status = await save_mc_coord_helper(specs[4], specs[1], specs[2], specs[3], specs[5])
+                status = await save_mc_coord_helper(specs[4], specs[1], specs[2], specs[3], specs[5].title())
             if status: 
-                em = discord.Embed(title="SUCCESS", description= name + " [" + str(x) + " " + str(y) + " " + str(z) + "] as has updated" )
+                em = discord.Embed(title="SUCCESS", description= specs[4] + " [" + str(specs[1]) + " " + str(specs[2]) + " " + str(specs[3]) + "] as has updated" )
             else:
-                em = discord.Embed(title="SUCCESS", description= name + " [" + str(x) + " " + str(y) + " " + str(z) + "] has saved" )
+                em = discord.Embed(title="SUCCESS", description= specs[4] + " [" + str(specs[1]) + " " + str(specs[2]) + " " + str(specs[3]) + "] has saved" )
         else:
             em = discord.Embed(title="UNSUCCESSFUL", description= "Please check your input:")
             em.add_field(name="Message command", value="kj!mc spt <x> <y> <z> <name>")
-            em.add_field(name="Slash command", value="/mc spt <x> <y> <z> <name> [type]")
+            em.add_field(name="Slash command", value="/mcspt <x> <y> <z> <name> [type]")
+        return em
+    elif specs[0] == "vpt":
+        if len(specs) == 1:
+            em = await view_mc_coords("", "")
+        elif len(specs) == 2:
+            em = await view_mc_coords(specs[1], "")
+        else:
+            if specs[1].lower() not in ["biome", "structure", "build"]:
+                specs = list(specs)
+                specs[1] = ""
+            em = await view_mc_coords( specs[1], specs[2])
         return em
 
-@client.command(name= "kj!mc")
+@client.command(name= "mc")
 async def mc(ctx, *specs):
-    name = " ".join(specs[4:])
-    em = await mc_controller(specs[:4].append(name))
+    if specs[0] == "spt":
+        name = " ".join(specs[4:])
+        specs = list(specs)[:4]
+        specs.append(name)
+    em = await mc_controller(specs)
     await ctx.send(embed=em)
+
+# SAVE slash command
+@client.tree.command(
+        name="mcspt",
+        description="save and update Minecraft coordinate",
+        guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def mc_save_slash(ctx, xyz: str, name: str, type: Optional[Literal["Biome", "Structure", "Build"]]):
+    x, y, z = xyz.split(" ")
+    if type == None:
+        type = "N/A"
+    specs = ["spt", x, y, z, name, type]
+    em = await mc_controller(specs)
+    await ctx.response.send_message(embed=em)
+
+# VIEW slash command
+@client.tree.command(
+        name="mcvpt",
+        description="view Minecraft coordinates",
+        guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def mc_view_slash(ctx, type: Optional[Literal["Biome", "Structure", "Build"]], name: Optional[str]):
+    if type == None:
+        type = ""
+    if name == None:
+        name = ""
+    specs = ["vpt", type, name]
+    em = await mc_controller(specs)
+    await ctx.response.send_message(embed=em)
 
 # MEMORY command
 
@@ -124,8 +191,8 @@ async def mc(ctx, *specs):
 async def on_ready():
     await client.change_presence(activity=discord.Game(
         name="learn about commands with kj!help OR /help"))
-    await client.tree.sync()
-    #await client.tree.sync(guild=discord.Object(id=788204563173867540))
+    await client.tree.sync(guild=discord.Object(id=1299805872503132161))
+    await client.tree.sync(guild=discord.Object(id=788204563173867540))
     print("Ready!")
 
 keep_alive()
