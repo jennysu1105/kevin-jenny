@@ -161,7 +161,7 @@ async def mc_controller(specs):
     elif specs[0] == "time":
         em = await get_mc_time()
         return em
-
+# MC message commands
 @client.command(name= "mc")
 async def mc(ctx, *specs):
     if specs[0] == "spt":
@@ -184,7 +184,6 @@ async def mc_save_slash(ctx, xyz: str, name: str, type: Optional[Literal["Biome"
     specs = ["spt", x, y, z, name, type]
     em = await mc_controller(specs)
     await ctx.response.send_message(embed=em)
-
 # VIEW slash command
 @client.tree.command(
         name="mcvpt",
@@ -199,7 +198,6 @@ async def mc_view_slash(ctx, type: Optional[Literal["Biome", "Structure", "Build
     specs = ["vpt", type, name]
     em = await mc_controller(specs)
     await ctx.response.send_message(embed=em)
-
 # TIME slash command
 @client.tree.command(
         name="mctime",
