@@ -52,7 +52,7 @@ async def create_new_memory(mems, id, date, name, type, details, img, address):
   mems[id]["img"] = img
   mems[id]["address"] = address
   return mems
-async def update_mc_coord(id, date, name, type, details, img, address):
+async def update_mem(id, date, name, type, details, img, address):
   mems = await get_memories()
   if id < len(mems):
     if name != "N/A":

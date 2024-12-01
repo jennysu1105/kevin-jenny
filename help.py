@@ -7,6 +7,7 @@ async def general_help():
         description="kj!help <type> OR /help <type> for more indepth help.")
     em.add_field(name="kj!help c OR /help c", value="General commands")
     em.add_field(name="kj!help mc OR /help mc", value="Minecraft commands")
+    em.add_field(name="/help mem", value="Memory capsule commands")
     return em
 
 
@@ -31,14 +32,12 @@ async def minecraft_help():
 
 async def memory_help():
     em = discord.Embed(title="Memory Capsule Command Help",
-                        description="/mem<type>")
+                        description="All our memories together! <3")
     em.add_field(name="/memstore [name] [date] [type] [details] <address> ",
                 value = "All the places we went together!")
-    em.add_field(name="/memview [name] [type]",
-                value = "Browse our memories!")
     em.add_field(name="/watchsave [name] [date] [type]",
                 value = "Save what we have watched together <3")
-    em.add_field(name="/watchcat [name] [type]",
+    em.add_field(name="/memview [name] [type]",
                 value= "Browse what we have watched together!")
 
     return em
