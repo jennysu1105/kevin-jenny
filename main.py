@@ -101,8 +101,8 @@ async def mc_time_slash(ctx):
     description="Save memories here!/nDates in mm-dd-yyyy format please OR blank for today!",
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
-async def mem_store_slash(ctx, name: str, date: Optional[str], type: Literal["Food", "Activity", "Work", "Home"], details: Optional[str], address: str, img: Optional[str]):
-    specs = await fix_specs(["memstore", name, date, type, details, address, img])
+async def mem_store_slash(ctx, id: Optional[int], name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Food", "Activity", "Work", "Home"], details: Optional[str], address: str, img: Optional[str]):
+    specs = await fix_specs(["memstore", id, name, date, user, type, details, address, img])
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
 
@@ -112,8 +112,19 @@ async def mem_store_slash(ctx, name: str, date: Optional[str], type: Literal["Fo
     description="Save what we have watched together <3/nDates in mm-dd-yyyy format please!",
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
-async def watch_save_slash(ctx, name: str, date: Optional[str], type: Literal["Kdrama", "English show", "Anime"], details: Optional[str], img: Optional[str]):
-    specs = await fix_specs(["watchsave", name, date, type, details, "N/A", img])
+async def watch_save_slash(ctx, name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Kdrama", "English", "Anime"], details: Optional[str], img: Optional[str]):
+    specs = await fix_specs(["watchsave", name, date, user, type, details, "N/A", img])
+    em = await mem_controller(specs)
+    await ctx.response.send_message(embed=em)
+
+# GET WATCHLIST command
+@client.tree.command(
+    name="watchlist",
+    description="View what we've watched together! <3",
+    guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def watchlist_slash(ctx, type: Optional[Literal["Kdrama", "English", "Anime"]], id: Optional[int]):
+    specs = await fix_specs(["watchlist", type, id])
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
 
