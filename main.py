@@ -128,6 +128,17 @@ async def watchlist_slash(ctx, type: Optional[Literal["Kdrama", "English", "Anim
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
 
+# GET MEMORY command
+@client.tree.command(
+    name="viewmem",
+    description="Retrieve one of out memories in our memory capsule!",
+    guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def viewmem_slash(ctx, type: Optional[Literal["Food", "Activity", "Work", "Home"]], id: Optional[int]):
+    specs = await fix_specs(["viewmem", type, id])
+    em = await mem_controller(specs)
+    await ctx.response.send_message(embed=em)
+    
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(
