@@ -101,8 +101,8 @@ async def mc_time_slash(ctx):
     description="Save memories here!/nDates in mm-dd-yyyy format please OR blank for today!",
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
-async def mem_store_slash(ctx, id: Optional[int], name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Food", "Activity", "Work", "Home", "Special"], details: Optional[str], address: str, logo: Optional[str], photo: Optional[str]):
-    specs = await fix_specs(["memstore", id, name, date, user, type, details, address, logo, photo])
+async def mem_store_slash(ctx, name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Food", "Activity", "Work", "Home", "Special", "Etc."], details: Optional[str], address: str, logo: Optional[str], photo: Optional[str]):
+    specs = await fix_specs(["memstore", "N/A", name, date, user, type, details, address, logo, photo])
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
 
