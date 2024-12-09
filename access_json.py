@@ -41,7 +41,7 @@ async def get_memories():
 async def save_memory(mems):
   with open("data/memories.json", "w") as f:
     json.dump(mems, f)
-async def create_new_memory(mems, id, date, name, user, type, details, img, address):
+async def create_new_memory(mems, id, date, name, user, type, details, logo, img, address):
   mems.append({})
   if date == "N/A":
     date = datetime.datetime.now().strftime('%m-%d-%Y')
@@ -52,9 +52,14 @@ async def create_new_memory(mems, id, date, name, user, type, details, img, addr
   mems[id]["details"][user] = details
   mems[id]["img"] = img
   mems[id]["address"] = address
+  mems[id]["logo"] = logo
   return mems
 
-async def update_mem(id, name, date, user, type, details, address, img):
+async def sort_memories(mems):
+  mems_sorted = sorted(mems, key=lambda x: datetime.datetime.strptime(x["date"], "%m-%d-%Y"))
+  return mems_sorted
+
+async def update_mem(id, name, date, user, type, details, address, logo, img):
   mems = await get_memories()
   all_names = [mems[x]["name"] for x in range(len(mems))]
   if (id != "N/A" and id < len(mems)):
@@ -70,10 +75,14 @@ async def update_mem(id, name, date, user, type, details, address, img):
       mems[id]["img"] = img
     if address != "N/A":
       mems[id]["address"] = address
+    if logo != "N/A":
+      mems[id]["logo"] = logo
 
   else:
     id = len(mems)
-    mems = await create_new_memory(mems, id, date, name, user, type, details, img, address)
+    mems = await create_new_memory(mems, id, date, name, user, type, details, logo, img, address)
 
+  result = mems[id]
+  mems = await sort_memories(mems)
   await save_memory(mems)
-  return mems[id]
+  return result

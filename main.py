@@ -101,8 +101,8 @@ async def mc_time_slash(ctx):
     description="Save memories here!/nDates in mm-dd-yyyy format please OR blank for today!",
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
-async def mem_store_slash(ctx, id: Optional[int], name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Food", "Activity", "Work", "Home"], details: Optional[str], address: str, img: Optional[str]):
-    specs = await fix_specs(["memstore", id, name, date, user, type, details, address, img])
+async def mem_store_slash(ctx, id: Optional[int], name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Food", "Activity", "Work", "Home", "Special"], details: Optional[str], address: str, logo: Optional[str], photo: Optional[str]):
+    specs = await fix_specs(["memstore", id, name, date, user, type, details, address, logo, photo])
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
 
@@ -112,8 +112,8 @@ async def mem_store_slash(ctx, id: Optional[int], name: str, user: Literal["Jenn
     description="Save what we have watched together <3/nDates in mm-dd-yyyy format please!",
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
-async def watch_save_slash(ctx, name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Kdrama", "English", "Anime"], details: Optional[str], img: Optional[str]):
-    specs = await fix_specs(["watchsave", name, date, user, type, details, "N/A", img])
+async def watch_save_slash(ctx, name: str, user: Literal["Jenny", "Kevin"], date: Optional[str], type: Literal["Kdrama", "English", "Anime"], details: Optional[str], cover: Optional[str], photo: Optional[str]):
+    specs = await fix_specs(["watchsave", name, date, user, type, details, "N/A", cover, photo])
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
 
@@ -134,8 +134,18 @@ async def watchlist_slash(ctx, type: Optional[Literal["Kdrama", "English", "Anim
     description="Retrieve one of out memories in our memory capsule!",
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
-async def viewmem_slash(ctx, type: Optional[Literal["Food", "Activity", "Work", "Home"]], id: Optional[int]):
+async def viewmem_slash(ctx, type: Optional[Literal["Food", "Activity", "Work", "Home", "Special"]], id: Optional[int]):
     specs = await fix_specs(["viewmem", type, id])
+    em = await mem_controller(specs)
+    await ctx.response.send_message(embed=em)
+
+@client.tree.command(
+    name="updatemem",
+    description="Update one of our memories",
+    guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def updatemem_slash(ctx, id: int, name: Optional[str], user: Literal["Jenny", "Kevin"], date: Optional[str], type: Optional[Literal["Food", "Activity", "Work", "Home", "Special"]], details: Optional[str], address: Optional[str], logo: Optional[str], photo: Optional[str]):
+    specs = await fix_specs(["updatemem", id, name, date, user, type, details, address, logo, photo])
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
     
