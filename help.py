@@ -33,11 +33,15 @@ async def minecraft_help():
 async def memory_help():
     em = discord.Embed(title="Memory Capsule Command Help",
                         description="All our memories together! <3")
-    em.add_field(name="/memstore [name] [date] [type] [details] <address> ",
+    em.add_field(name="/memstore <name> <type> <user> <address> [date] [details] [logo] [photo] ",
                 value = "All the places we went together!")
-    em.add_field(name="/watchsave [name] [date] [type]",
+    em.add_field(name="/watchsave <name> <type> <user> [date] [detail] [cover] [photo]",
                 value = "Save what we have watched together <3")
-    em.add_field(name="/memview [name] [type]",
+    em.add_field(name="/watchlist [type] [id]",
+                value="View what we've watched together!")
+    em.add_field(name="/viewmem [type] [id]",
                 value= "Browse what we have watched together!")
+    em.add_field(name="updatemem <id> <user> [name] [date] [details] [address] [type] [logo] [photo]",
+                value="Change information linked to a memory")
 
     return em
