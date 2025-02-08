@@ -124,9 +124,8 @@ async def watch_save_slash(ctx, name: str, user: Literal["Jenny", "Kevin"], date
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
 async def watchlist_slash(ctx, type: Optional[Literal["Kdrama", "English", "Anime"]], id: Optional[int]):
-    specs = await fix_specs(["watchlist", type, id])
-    em = await mem_controller(specs)
-    await ctx.response.send_message(embed=em)
+    specs = await fix_specs(["watchlist", type, id, ctx])
+    await mem_controller(specs)
 
 # GET MEMORY command
 @client.tree.command(
@@ -135,9 +134,8 @@ async def watchlist_slash(ctx, type: Optional[Literal["Kdrama", "English", "Anim
     guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
 )
 async def viewmem_slash(ctx, type: Optional[Literal["Food", "Activity", "Work", "Home", "Special"]], id: Optional[int]):
-    specs = await fix_specs(["viewmem", type, id])
-    em = await mem_controller(specs)
-    await ctx.response.send_message(embed=em)
+    specs = await fix_specs(["viewmem", type, id, ctx])
+    await mem_controller(specs)
 
 @client.tree.command(
     name="updatemem",
