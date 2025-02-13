@@ -6,6 +6,8 @@ from access_json import *
 import shutil
 from PIL import Image
 
+from help import minecraft_help
+
 # SAVE function
 async def save_mc_coord_helper(name, x, y, z, type):
     pt = str(x) + " " + str(y) + " " + str(z)
