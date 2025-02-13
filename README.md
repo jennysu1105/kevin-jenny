@@ -55,3 +55,4 @@ This project is a Discord chat bot that can store information.
 | bot on server | currently running locally. One day, set up server for it | 
 | add art commands | show and store art made during the relationship |
 | save images to local | save in case discord becomes weird |
+| modularize memory database | separate address and logos |
