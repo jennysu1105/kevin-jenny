@@ -53,3 +53,5 @@ This project is a Discord chat bot that can store information.
 | time accuracy | make time commands more accurate | 
 | comment using interaction user | use discord interaction to check who comments using details |
 | bot on server | currently running locally. One day, set up server for it | 
+| add art commands | show and store art made during the relationship |
+| save images to local | save in case discord becomes weird |
