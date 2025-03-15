@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from access_json import *
 import shutil
 from PIL import Image
+from helpers.addressbook import *
 
 from components.pagination import Pagination
 
@@ -38,13 +39,14 @@ async def get_memory_list(type):
 
 async def get_memory_embed(memory):
     em = discord.Embed(title=memory["name"])
-    if memory["logo"] != "N/A":
-        em.set_thumbnail(url=memory["logo"])
+    adds = await get_addresses()
     em.add_field(name="Type", value=memory["type"], inline=True)
     em.add_field(name="Date", value=memory["date"], inline=True)
     em.add_field(name="\t", value="\t")
     if (memory["address"] != "N/A"):
-        em.add_field(name="Address", value=memory["address"])
+        if adds[memory["address"]]["logo"] != "N/A":
+            em.set_thumbnail(url=adds[memory["address"]]["logo"])
+        em.add_field(name="Address", value=adds[memory["address"]]["address"])
         em.add_field(name="\t", value="\t")
         em.add_field(name="\t", value="\t")
     em.add_field(name="Comments", value="Jenny: " + memory["details"]["Jenny"] + "\nKevin: " + memory["details"]["Kevin"])

@@ -1,5 +1,6 @@
 import json
 import datetime
+from helpers.addressbook import *
 
 # MINECRAFT json access
 async def get_mc_coord():
@@ -51,8 +52,7 @@ async def create_new_memory(mems, id, date, name, user, type, details, logo, img
   mems[id]["details"] = {"Jenny": "N/A", "Kevin": "N/A"}
   mems[id]["details"][user] = details
   mems[id]["img"] = img
-  mems[id]["address"] = address
-  mems[id]["logo"] = logo
+  mems[id]["address"] = await update_addressbook(address, logo)
   return mems
 
 async def sort_memories(mems):
@@ -74,7 +74,7 @@ async def update_mem(id, name, date, user, type, details, address, logo, img):
     if img != "N/A":
       mems[id]["img"] = img
     if address != "N/A":
-      mems[id]["address"] = address
+      mems[id]["address"] = await update_addressbook(address, logo)
     if logo != "N/A":
       mems[id]["logo"] = logo
 
@@ -86,3 +86,4 @@ async def update_mem(id, name, date, user, type, details, address, logo, img):
   mems = await sort_memories(mems)
   await save_memory(mems)
   return result
+
