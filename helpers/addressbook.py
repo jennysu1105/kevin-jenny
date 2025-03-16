@@ -40,15 +40,17 @@ async def create_new_address(add, logo):
     return address
 
 async def update_addressbook(address, logo):
-    addresses = await get_addresses()
-    address_id = await get_address_ID(address) 
-    if address_id == -1:
-        addresses.append(await create_new_address(address, logo))
-        await save_address(addresses)
-        return len(addresses)-1
+    if (address != "N/A"):
+        addresses = await get_addresses()
+        address_id = await get_address_ID(address) 
+        if address_id == -1:
+            addresses.append(await create_new_address(address, logo))
+            await save_address(addresses)
+            return len(addresses)-1
 
-    else:
-        if logo != "":
-            addresses[address_id]["logo"] = logo
+        else:
+            if logo != "":
+                addresses[address_id]["logo"] = logo
 
-    return address_id
+        return address_id
+    return "N/A"

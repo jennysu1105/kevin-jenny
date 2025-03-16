@@ -40,12 +40,12 @@ async def get_memory_list(type):
 async def get_memory_embed(memory):
     em = discord.Embed(title=memory["name"])
     adds = await get_addresses()
+    if memory["logo"] != "N/A":
+        em.set_thumbnail(url=memory["logo"])
     em.add_field(name="Type", value=memory["type"], inline=True)
     em.add_field(name="Date", value=memory["date"], inline=True)
     em.add_field(name="\t", value="\t")
     if (memory["address"] != "N/A"):
-        if adds[memory["address"]]["logo"] != "N/A":
-            em.set_thumbnail(url=adds[memory["address"]]["logo"])
         em.add_field(name="Address", value=adds[memory["address"]]["address"])
         em.add_field(name="\t", value="\t")
         em.add_field(name="\t", value="\t")
