@@ -6,6 +6,8 @@ from access_json import *
 import shutil
 from PIL import Image
 
+from components.calender import Calendar
+
 from help import minecraft_help
 
 # SAVE function
@@ -38,13 +40,12 @@ async def view_mc_coords(type, name):
 
 # TIME function
 async def get_mc_time():
-    started_world = datetime.datetime(2024, 10, 26, 14, 50, 0)
-    now = datetime.datetime.now()
-    dif = relativedelta(now, started_world)
+    calendar = Calendar()
+    dif = calendar.time_since(2024, 10, 26, 14, 50, 0)
 
-    string = str(dif.years) + " years " + str(dif.months) + " months " + str(
-        dif.days) + " days " + str(dif.hours) + " hours " + str(
-            dif.minutes) + " minutes " + str(dif.seconds) + " seconds "
+    string = str(dif["Y"]) + " years " + str(dif["M"]) + " months " + str(
+        dif["D"]) + " days " + str(dif["h"]) + " hours " + str(
+            dif["m"]) + " minutes " + str(dif["s"]) + " seconds "
     em = discord.Embed(title="Our Minecraft World")
     em.add_field(name="We have been working on it for:", value=string)
     return em

@@ -2,6 +2,7 @@ import asyncio
 import access_json
 import helpers.addressbook
 
+# Separating addresses from memory
 async def split_mem_address(mem):
     new_mem = {}
     new_mem["date"] = mem["date"]
@@ -15,7 +16,6 @@ async def split_mem_address(mem):
     new_mem["img"] = mem["img"]
 
     return new_mem
-
 async def update_mems_addressbook():
     mems = await access_json.get_memories()
     new_mems = []
@@ -24,9 +24,9 @@ async def update_mems_addressbook():
         new_mems.append(await split_mem_address(mem))
     
     await access_json.save_memory(new_mems)
-
 #asyncio.run(update_mems_addressbook())
 
+# Adding logo and fixing logo fields
 async def add_logos():
     mems = await access_json.get_memories()
     adds = await helpers.addressbook.get_addresses()
@@ -39,4 +39,4 @@ async def add_logos():
         else:
             new_mems = await access_json.create_new_memory(new_mems, i, mems[i]["date"], mems[i]["name"], "N/A", mems[i]["type"],mems[i]["details"],"N/A", mems[i]["img"], "N/A")
     await access_json.save_memory(new_mems)
-asyncio.run(add_logos())
+#asyncio.run(add_logos())
