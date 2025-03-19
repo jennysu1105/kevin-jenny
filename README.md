@@ -14,9 +14,9 @@ This project is a Discord chat bot that can store information.
 | c | Command Help | /help c | General Commands help | 
 | mc | Minecraft Help | /help mc | Minecraft Commands help |
 |  mem | Memory Help | /help mem | Memory Command help |
-| **time** | Time | /time | How long have we been together? *slightly inaccurate*| 
+| **time** | Time | /time | How long have we been together? ~~*slightly inaccurate*~~| 
 | **mc** | Minecraft Commands |
-| time | MC time | /mc time | How long have has our server been alive? *slightly inaccurate* |
+| time | MC time | /mc time | How long have has our server been alive? ~~*slightly inaccurate*~~ |
 | spt | Save Point | /spt \<x y z\> \<name\> \[type\] | Save point x y z as name |
 | vpt | View Point | /vpt \[type\] \[name\] | View list of points with name and/or type |
 | **mem** | Memory Commands |  | *future feature: comment made using interaction user* | 
@@ -50,9 +50,9 @@ This project is a Discord chat bot that can store information.
 | Feature | Description |
 | :-----: | :--|
 | filter by name | being able to filter memories and watchlist by name |
-| time accuracy | make time commands more accurate | 
+| ~~time accuracy~~ | ~~make time commands more accurate~~ | 
 | comment using interaction user | use discord interaction to check who comments using details |
 | bot on server | currently running locally. One day, set up server for it | 
 | add art commands | show and store art made during the relationship |
 | save images to local | save in case discord becomes weird |
-| modularize memory database | separate address and logos |
+| ~~modularize memory database~~ | ~~separate address and logos~~ |
