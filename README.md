@@ -38,6 +38,8 @@ This project is a Discord chat bot that can store information.
 | python-dateutil | 2.9.0.post0 | Library: Date/Time |
 | typing | 3.7.4.3 | Library: Optional/Literal inputs |
 | pillow | 11.0.0 | *not used yet* Library: Image processing |
+| pytz | 2025.1 | Library: Timezones |
+| geopy | 2.4.1 | Library: Location Search |
 
 ## Setup
 1. Create new application at https://discord.com/developers/applications
@@ -45,6 +47,8 @@ This project is a Discord chat bot that can store information.
 3. Create .env file in main folder
 ```TOKEN= insert token here ...```
 4. Run program with main.py
+
+Download packages with python -m pip install -U, sometimes python3.9 -m pip install
 
 ## Future Features
 | Feature | Description |

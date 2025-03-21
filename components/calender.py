@@ -65,10 +65,10 @@ class Calendar():
             result["s"] %= 60
             result["h"] += now.hour + result["m"]//60
             result["m"] %= 60
-            result["D"] = self.MONTH_DAYS[now.month-2] + (now.month == 2 and now.year%4 == 0) - date.day + now.day - 1 + result["h"]//24
+            result["D"] = self.MONTH_DAYS[now.month-2] + (now.month-2 == 2 and now.year%4 == 0) - date.day + now.day - 1 + result["h"]//24
             result["h"] %= 24
-            result["M"] += now.month - 1 + result["D"]//self.MONTH_DAYS[now.month-2]
-            result["D"] %= self.MONTH_DAYS[now.month-2]
+            result["M"] += now.month - 1 + result["D"]//(self.MONTH_DAYS[now.month-2] + (now.month-2 == 2 and now.year%4 == 0))
+            result["D"] %= self.MONTH_DAYS[now.month-2] + (now.month-2 == 2 and now.year%4 == 0)
 
         print(now, date)
         return result
