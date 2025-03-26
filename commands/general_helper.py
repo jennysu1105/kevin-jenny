@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from access_json import *
 import shutil
 from PIL import Image
+from components.calender import Calendar
 
 from help import *
 
@@ -34,13 +35,12 @@ async def get_help_text(specs):
 
 # TIME command
 async def get_time():
-    together = datetime.datetime(2024, 10, 20, 23, 31, 0)
-    now = datetime.datetime.now()
-    dif = relativedelta(now, together)
+    calendar = Calendar()
+    dif = calendar.time_since(2024, 10, 19, 23, 31, 0)
 
-    string = str(dif.years) + " years " + str(dif.months) + " months " + str(
-        dif.days) + " days " + str(dif.hours) + " hours " + str(
-            dif.minutes) + " minutes " + str(dif.seconds) + " seconds "
+    string = str(dif["Y"]) + " years " + str(dif["M"]) + " months " + str(
+        dif["D"]) + " days " + str(dif["h"]) + " hours " + str(
+            dif["m"]) + " minutes " + str(dif["s"]) + " seconds "
     em = discord.Embed(title="Kevin ♥ Jenny")
     em.add_field(name="We have been together for:", value=string)
     return em
