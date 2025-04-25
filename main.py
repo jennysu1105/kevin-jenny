@@ -147,6 +147,16 @@ async def updatemem_slash(ctx, id: int, name: Optional[str], user: Literal["Jenn
     em = await mem_controller(specs)
     await ctx.response.send_message(embed=em)
     
+@client.tree.command(
+    name="comment",
+    description="Add a comment",
+    guilds=[discord.Object(id=788204563173867540), discord.Object(id=1299805872503132161)]
+)
+async def comment_slash(ctx, id: int, user: Literal["Jenny", "Kevin"], comment: str):
+    specs = await fix_specs(["comment", id, user, comment])
+    em = await mem_controller(specs)
+    await ctx.response.send_message(embed=em)
+    
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(

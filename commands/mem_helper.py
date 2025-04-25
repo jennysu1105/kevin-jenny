@@ -32,7 +32,7 @@ async def get_memory_list(type):
     mems = await get_memories()
     mem_list = []
     for id in range(len(mems)):
-        if (type == "" and mems[id]["address"] != "N/A") or (type != "" and re.search(type.lower(), mems[id]["type"].lower())):
+        if (type == "") or (type != "" and re.search(type.lower(), mems[id]["type"].lower())):
             mem_list.append({"id": str(id), "name": mems[id]["name"], "types_date": mems[id]["date"] + "\u3000" + mems[id]["type"]})
 
     return mem_list
@@ -192,4 +192,15 @@ async def mem_controller(specs):
         em = discord.Embed(title="Success!", description=name+" has been updated in memory capsule.")
         for property in result.keys():
             em.add_field(name=property, value=result[property])
+        return em
+    
+    if specs[0] == "comment":
+        id, user, comment = specs[1:]
+        memory = await get_memory(id)
+        if memory == None:
+            em = discord.Embed("No memory found")
+        else:
+            result = await update_mem(id, "N/A", "N/A", user, "N/A", comment, "N/A", "N/A", "N/A")
+            memory = await get_memory(id)
+            em = await get_memory_embed(memory)
         return em

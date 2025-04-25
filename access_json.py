@@ -61,6 +61,8 @@ async def create_new_memory(mems, id, date, name, user, type, details, logo, img
   if mems[id]["address"] == "N/A":
     mems[id]["logo"] = logo
   else:
+    adds = await get_addresses()
+    print(mems[id]["address"])
     mems[id]["logo"] = adds[mems[id]["address"]]["logo"]
 
   return mems
